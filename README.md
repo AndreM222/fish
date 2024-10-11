@@ -47,6 +47,7 @@ nvm use lts
 
 ##### Brew - Needs Installation
 
+- [Fish](https://fishshell.com/) - `brew install fish`
 - [Git](https://git-scm.com/download/win) - `brew install git`
 - [SQLite & MySQL](https://sqlite.org/index.html) - `brew install sqlite`
 - [Neovim](https://brew.run/search?query=neovim) - `brew install Neovim`
