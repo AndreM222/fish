@@ -1,5 +1,5 @@
 # Oh-My-Posh
-set theme "alert_minimalNight"
+set theme "term_minimalNight"
 # minimalNight -> This one is predefined colors
 # term_minimalNight -> This one changes based only on the terminal color
 # alert_minimalNight -> This one changes only alerts based only on the terminal color
