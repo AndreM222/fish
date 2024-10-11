@@ -20,7 +20,7 @@
 
 ## Theme 🎭
 
-- [Dracula](https://draculatheme.com/windows-terminal) - Dracula Color Theme
+- [Dracula](https://draculatheme.com/iterm) - Dracula Color Theme
 
 ## Terminal 📟
 
