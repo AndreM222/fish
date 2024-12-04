@@ -1,4 +1,25 @@
+set -gx PATH bin $PATH
+set -gx PATH ~/bin $PATH
+set -gx PATH ~/.local/bin $PATH
+
+# NodeJS
+set -gx PATH node_modules/.bin $PATH
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
+    eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
+else
+    if test -f "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+        . "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+    else
+        set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
+    end
+end
+# <<< conda initialize <<<
+
 # Oh-My-Posh
+
 set theme "term_minimalNight"
 # minimalNight -> This one is predefined colors
 # term_minimalNight -> This one changes based only on the terminal color
@@ -49,9 +70,5 @@ command -qv nvim && alias vi nvim
 
 set -gx EDITOR nvim
 
-set -gx PATH bin $PATH
-set -gx PATH ~/bin $PATH
-set -gx PATH ~/.local/bin $PATH
-
-# NodeJS
-set -gx PATH node_modules/.bin $PATH
+# Disable prompt for conda to use oh-my-posh
+function __conda_add_prompt; end
