@@ -38,7 +38,11 @@ function ghq-fzf
 
     if test -n "$selected"
         cd "$(ghq root)/$selected"
-        echo "ghq: $selected"
+
+        if test $fish_bind_mode != paste
+            set _omp_new_prompt true
+            commandline --function repaint
+        end
     end
 end
 
