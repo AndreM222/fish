@@ -33,6 +33,17 @@ oh-my-posh init fish --config $omp_file | source
 export FZF_DEFAULT_OPTS="--color=fg:white,hl:blue,gutter:-1 --color=fg+:white,bg+:bright-black,hl+:blue --color=info:yellow,prompt:cyan,pointer:magenta --color=marker:magenta,spinner:yellow,header:bright-black"
 fzf --fish | FZF_ALT_C_COMMAND= source
 
+function ghq-fzf
+    set selected (ghq list | fzf --height 40% --reverse)
+
+    if test -n "$selected"
+        cd "$(ghq root)/$selected"
+        echo "ghq: $selected"
+    end
+end
+
+bind \cG ghq-fzf
+
 bind \cF fzf-file-widget
 bind \cT transpose-chars
 
