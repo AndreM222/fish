@@ -41,9 +41,10 @@ function ghq-fzf -d 'fzf ghq jumper'
 
         if test $fish_bind_mode != paste
             set _omp_new_prompt true
-            commandline --function repaint
         end
     end
+
+    commandline --function repaint
 end
 
 bind \cG ghq-fzf
