@@ -21,7 +21,7 @@ end
 # TMux
 if status is-interactive
 and not set -q TMUX
-    exec tmux
+    exec tmux attach\; choose-tree -s
 end
 
 # Oh-My-Posh
