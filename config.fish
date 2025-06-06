@@ -11,12 +11,18 @@ if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
     eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
 else
     if test -f "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
-        . "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+        source "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
     else
         set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
     end
 end
 # <<< conda initialize <<<
+
+# TMux
+if status is-interactive
+and not set -q TMUX
+    exec tmux
+end
 
 # Oh-My-Posh
 
@@ -48,6 +54,9 @@ function ghq-fzf -d 'fzf ghq jumper'
 end
 
 bind \cG ghq-fzf
+
+export LANG=ja_JP.UTF-8
+export LC_ALL=ja_JP.UTF-8
 
 bind \cF fzf-file-widget
 bind \cT transpose-chars
