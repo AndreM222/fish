@@ -21,7 +21,12 @@ end
 # TMux
 if status is-interactive
 and not set -q TMUX
-    exec tmux attach\; choose-tree -s
+    tmux has-session 2>/dev/null
+    if test $status -eq 0;
+        exec tmux attach\; choose-tree -s
+    else
+        exec tmux
+    end
 end
 
 # Oh-My-Posh
