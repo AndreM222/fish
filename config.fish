@@ -58,7 +58,22 @@ function ghq-fzf -d 'fzf ghq jumper'
     commandline --function repaint
 end
 
+function config-fzf -d 'fzf config jumper'
+    set selected (ls $HOME/.config | fzf --height 40% --reverse)
+
+    if test -n "$selected"
+        cd "$(ghq root)/$selected"
+
+        if test $fish_bind_mode != paste
+            set _omp_new_prompt true
+        end
+    end
+
+    commandline --function repaint
+end
+
 bind \cG ghq-fzf
+bind \cS config-fzf
 
 export LANG=ja_JP.UTF-8
 export LC_ALL=ja_JP.UTF-8
