@@ -18,14 +18,18 @@ else
 end
 # <<< conda initialize <<<
 
-# TMux
+# # TMux
 if status is-interactive
 and not set -q TMUX
-    tmux has-session 2>/dev/null
-    if test $status -eq 0;
-        exec tmux attach\; choose-tree -s
+    # Get list of unattached sessions
+    set sessions (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null | grep ' 0$' | cut -d' ' -f1)
+
+    if test (count $sessions) -gt 0
+        # Attach to the first unattached session
+        exec tmux attach-session -t $sessions[1]\; choose-tree -s
     else
-        exec tmux
+        # No unattached session: create a new one
+        exec tmux new-session
     end
 end
 
