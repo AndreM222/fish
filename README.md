@@ -14,6 +14,8 @@
 
 - Nerd Fonts >= 3.0
 
+- TMUX (When terminal open, then fish will auto run tmux)
+
 ## Font 🖌️
 
 - [FiraCode-NF-Mono](https://www.nerdfonts.com/font-downloads) - Font
