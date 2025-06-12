@@ -19,7 +19,9 @@ end
 # <<< conda initialize <<<
 
 # # TMux
-if status is-interactive and not set -q TMUX and type -q tmux
+if status is-interactive
+    and not set -q TMUX
+    and type -q tmux
     # Get list of unattached sessions
     set sessions (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null | grep ' 0$' | cut -d' ' -f1)
 
