@@ -8,12 +8,12 @@ set -gx PATH node_modules/.bin $PATH
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
-    eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
+    eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" hook $argv | source
 else
     if test -f "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
         source "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
     else
-        set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
+        set -x PATH /opt/homebrew/Caskroom/miniconda/base/bin $PATH
     end
 end
 # <<< conda initialize <<<
@@ -36,7 +36,7 @@ end
 
 # Oh-My-Posh
 
-set theme "term_minimalNight"
+set theme term_minimalNight
 # minimalNight -> This one is predefined colors
 # term_minimalNight -> This one changes based only on the terminal color
 # alert_minimalNight -> This one changes only alerts based only on the terminal color
@@ -49,11 +49,27 @@ oh-my-posh init fish --config $omp_file | source
 export FZF_DEFAULT_OPTS="--color=fg:white,hl:blue,gutter:-1 --color=fg+:white,bg+:bright-black,hl+:blue --color=info:yellow,prompt:cyan,pointer:magenta --color=marker:magenta,spinner:yellow,header:bright-black"
 fzf --fish | FZF_ALT_C_COMMAND= source
 
-function ghq-fzf -d 'fzf ghq jumper'
-    set selected (ghq list | fzf --height 40% --reverse)
+function projects-fzf -d 'fzf ghq jumper (includes ~/.config Git dirs)'
+    # Gather all GHQ projects
+    set ghq_projects (ghq list)
+
+    # Gather Git-tracked subdirectories from ~/.config
+    set config_git_dirs
+    for dir in $HOME/.config/*/
+        if test -d "$dir/.git"
+            set config_git_dirs $config_git_dirs (string replace "$HOME/" "" $dir | string trim --right --chars '/')
+        end
+    end
+
+    # Combine both sources and show in fzf
+    set selected (printf "%s\n" $ghq_projects $config_git_dirs | fzf --height 40% --reverse)
 
     if test -n "$selected"
-        cd "$(ghq root)/$selected"
+        if test -d (ghq root)/$selected
+            cd (ghq root)/$selected
+        else if test -d "$HOME/$selected"
+            cd "$HOME/$selected"
+        end
 
         if test $fish_bind_mode != paste
             set _omp_new_prompt true
@@ -63,7 +79,7 @@ function ghq-fzf -d 'fzf ghq jumper'
     commandline --function repaint
 end
 
-bind \cG ghq-fzf
+bind \cG projects-fzf
 
 # Setup japanese manually until Ghostty adds localization
 export LANG=ja_JP.UTF-8
@@ -107,4 +123,5 @@ command -qv nvim && alias vi nvim
 set -gx EDITOR nvim
 
 # Disable prompt for conda to use oh-my-posh
-function __conda_add_prompt; end
+function __conda_add_prompt
+end
