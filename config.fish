@@ -18,19 +18,33 @@ else
 end
 # <<< conda initialize <<<
 
-# # TMux
+# TMux
 if status is-interactive
     and not set -q TMUX
     and type -q tmux
     # Get list of unattached sessions
     set sessions (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null | grep ' 0$' | cut -d' ' -f1)
+    set all_sessions (tmux list-sessions -F '#{session_name}' 2>/dev/null)
 
+    set last_path (cat ~/.tmux_last_path ^/dev/null)
     if test (count $sessions) -gt 0
         # Attach to the first unattached session
         exec tmux attach-session -t $sessions[1]\; choose-tree -s
+    else if test -f ~/.tmux_last_path
+        and  test (count $all_sessions) -gt 0
+        # No unattached session: create a new one in last path only if
+        # sessions exist but all attched
+        set last_path (cat ~/.tmux_last_path)
+        exec tmux new-session -c $last_path
     else
-        # No unattached session: create a new one
         exec tmux new-session
+    end
+end
+
+function __update_tmux_path --on-variable PWD
+    # Update the last tmux path on directory change
+    if set -q TMUX
+        echo $PWD > ~/.tmux_last_path
     end
 end
 
