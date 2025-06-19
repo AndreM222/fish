@@ -26,7 +26,7 @@ if status is-interactive
     set sessions (tmux list-sessions -F '#{session_name} #{session_attached}' 2>/dev/null | grep ' 0$' | cut -d' ' -f1)
     set all_sessions (tmux list-sessions -F '#{session_name}' 2>/dev/null)
 
-    set last_path (cat ~/.tmux_last_path ^/dev/null)
+    set last_path (cat ~/.tmux_last_path 2>/dev/null)
     if test (count $sessions) -gt 0
         # Attach to the first unattached session
         exec tmux attach-session -t $sessions[1]\; choose-tree -s
