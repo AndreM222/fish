@@ -3,3 +3,4 @@ fish_variables
 completions
 conf.d
 functions
+.DS_Store
