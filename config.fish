@@ -33,7 +33,7 @@ if status is-interactive
     else if test -f ~/.tmux_last_path
         and  test (count $all_sessions) -gt 0
         # No unattached session: create a new one in last path only if
-        # sessions exist but all attched
+        # sessions exist but all attached
         set last_path (cat ~/.tmux_last_path)
         exec tmux new-session -c $last_path
     else
