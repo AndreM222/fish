@@ -48,9 +48,14 @@ function __update_tmux_path --on-variable PWD
     end
 end
 
-# Oh-My-Posh
+# Direnv
+if test -f /opt/homebrew/bin/direnv
+    direnv hook fish | source
+end
 
+# Oh-My-Posh
 set theme term_minimalNight
+
 # minimalNight -> This one is predefined colors
 # term_minimalNight -> This one changes based only on the terminal color
 # alert_minimalNight -> This one changes only alerts based only on the terminal color
@@ -94,10 +99,6 @@ function projects-fzf -d 'fzf ghq jumper (includes ~/.config Git dirs)'
 end
 
 bind \cG projects-fzf
-
-# Setup japanese manually until Ghostty adds localization
-export LANG=ja_JP.UTF-8
-export LC_ALL=ja_JP.UTF-8
 
 bind \cF fzf-file-widget
 bind \cT transpose-chars
